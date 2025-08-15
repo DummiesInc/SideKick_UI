@@ -1,0 +1,18 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+export { TestClient } from './TestClient';
+
+export { ApiError } from './core/ApiError';
+export { BaseHttpRequest } from './core/BaseHttpRequest';
+export { CancelablePromise, CancelError } from './core/CancelablePromise';
+export { OpenAPI } from './core/OpenAPI';
+export type { OpenAPIConfig } from './core/OpenAPI';
+
+export type { GetDisciplineDto } from './models/GetDisciplineDto';
+export type { GetJobDto } from './models/GetJobDto';
+export type { GetSpecialtyDto } from './models/GetSpecialtyDto';
+export { JobType } from './models/JobType';
+
+export { ProviderService } from './services/ProviderService';
