@@ -1,40 +1,42 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "TravelNurseServer",
+    "title": "SideKick API",
     "version": "1.0"
   },
   "paths": {
-    "/api/Provider": {
+    "/states": {
       "get": {
-        "tags": ["Provider"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Provider/GetDisciplines": {
-      "get": {
-        "tags": ["Provider"],
+        "tags": [
+          "States"
+        ],
+        "summary": "index states",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetDisciplineDto"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDisciplineDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDisciplineDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
                 }
               }
             }
@@ -42,26 +44,29 @@
         }
       }
     },
-    "/api/Provider/Jobs": {
+    "/states/{id}": {
       "get": {
-        "tags": ["Provider"],
+        "tags": [
+          "States"
+        ],
+        "summary": "show states",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetJobDto"
-                  }
-                }
-              },
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetJobDto"
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
                   }
                 }
               },
@@ -69,9 +74,103 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetJobDto"
+                    "$ref": "#/components/schemas/GetStateDto"
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "States"
+        ],
+        "summary": "update states",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetStateDto"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "States"
+        ],
+        "summary": "update states",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetStateDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetStateDto"
               }
             }
           }
@@ -81,128 +180,24 @@
   },
   "components": {
     "schemas": {
-      "GetDisciplineDto": {
+      "GetStateDto": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
           },
           "abbreviation": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "isForProvider": {
-            "type": "boolean"
+            "type": "string"
           }
         },
+        "required": [
+          "name",
+          "abbreviation"
+        ],
         "additionalProperties": false
-      },
-      "GetJobDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jobTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "uniqueNotes": {
-            "type": "string",
-            "nullable": true
-          },
-          "requirements": {
-            "type": "string",
-            "nullable": true
-          },
-          "jobType": {
-            "$ref": "#/components/schemas/JobType"
-          },
-          "housingProvided": {
-            "type": "boolean"
-          },
-          "hideExternally": {
-            "type": "boolean"
-          },
-          "autoPosted": {
-            "type": "boolean"
-          },
-          "active": {
-            "type": "boolean"
-          },
-          "allowsAutoposterUpdate": {
-            "type": "boolean"
-          },
-          "contractLengthWeeks": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "disciplineId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "discipline": {
-            "$ref": "#/components/schemas/GetDisciplineDto"
-          },
-          "specialtyId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "specialty": {
-            "$ref": "#/components/schemas/GetSpecialtyDto"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "expiresOn": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "platformId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "facilityId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetSpecialtyDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "JobType": {
-        "enum": [1, 2, 3],
-        "type": "integer",
-        "format": "int32"
       }
     }
   }

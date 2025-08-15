@@ -1,4 +1,4 @@
-import { ApiError, GetJobDto } from '@/generated/schema';
+import { ApiError, GetStateDto } from '@/generated/schema';
 import { sidekickClient } from '@/src/client';
 import getClientErrorMessageAndStatus from '@/src/errors/getClientErrorMessageAndStatus';
 import React from 'react';
@@ -7,7 +7,7 @@ import { Button, Table, TableHeadCell, TableRow, TableHead, TableBody, TableCell
 
 
 interface Props {
-  data: GetJobDto[];
+  data: GetStateDto[];
   errors: any[];
 }
 
@@ -21,7 +21,7 @@ const About = (props: Props) => {
     >
       Click me
     </Button> */}
-    <Table hoverable striped>
+    {/* <Table hoverable striped>
 
       <TableHead>
         <TableHeadCell>Job Title</TableHeadCell>
@@ -34,21 +34,16 @@ const About = (props: Props) => {
           props.data.map(job => (
             <TableRow>
               <TableCell>
-                {job?.jobTitle}
+                {job?.id}
               </TableCell>
-
               <TableCell>
-                {job?.contractLengthWeeks ? `${job?.contractLengthWeeks} weeks` : ''}
-              </TableCell>
-
-              <TableCell>
-                {job?.requirements}
+                {job?.name}
               </TableCell>
             </TableRow>
           ))
         }
       </TableBody>
-    </Table>
+    </Table> */}
   </div>;
 };
 
@@ -65,8 +60,8 @@ export async function getServerSideProps() {
   };
 
 
-    await sidekickClient.provider
-      .getApiProviderJobs()
+    await sidekickClient.states
+      .getStates()
       .then((res) => props.data = res)
       .catch(catchFunction);
 

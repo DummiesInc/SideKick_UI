@@ -10,9 +10,6 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
-export type { GetDisciplineDto } from './models/GetDisciplineDto';
-export type { GetJobDto } from './models/GetJobDto';
-export type { GetSpecialtyDto } from './models/GetSpecialtyDto';
-export { JobType } from './models/JobType';
+export type { GetStateDto } from './models/GetStateDto';
 
-export { ProviderService } from './services/ProviderService';
+export { StatesService } from './services/StatesService';

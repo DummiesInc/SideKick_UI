@@ -5,10 +5,10 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
-import { ProviderService } from './services/ProviderService';
+import { StatesService } from './services/StatesService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class TestClient {
-    public readonly provider: ProviderService;
+    public readonly states: StatesService;
     public readonly request: BaseHttpRequest;
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
         this.request = new HttpRequest({
@@ -22,7 +22,7 @@ export class TestClient {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
-        this.provider = new ProviderService(this.request);
+        this.states = new StatesService(this.request);
     }
 }
 
