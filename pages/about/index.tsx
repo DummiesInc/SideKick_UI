@@ -1,4 +1,4 @@
-import { ApiError, GetStateDto } from '@/generated/schema';
+import { ApiError, GetStateDto, GetDisciplineDto } from '@/generated/schema';
 import { sidekickClient } from '@/src/client';
 import getClientErrorMessageAndStatus from '@/src/errors/getClientErrorMessageAndStatus';
 import React from 'react';
@@ -7,12 +7,15 @@ import { Button, Table, TableHeadCell, TableRow, TableHead, TableBody, TableCell
 
 
 interface Props {
-  data: GetStateDto[];
+  disciplines: GetDisciplineDto[];
+  states: GetStateDto[];
   errors: any[];
 }
 
 const About = (props: Props) => {
-  console.log(props);
+  console.log(props.disciplines);
+  console.log(props.states);
+  
   return <div>
     {/* <Button 
     color="secondary" size="lg"
@@ -51,7 +54,8 @@ export default About;
 
 export async function getServerSideProps() {
   const props: Props = {
-    data: [],
+    disciplines: [],
+    states: [],
     errors: []
   };
 
@@ -59,10 +63,13 @@ export async function getServerSideProps() {
     props.errors.push(getClientErrorMessageAndStatus(e));
   };
 
+  await sidekickClient.discipline.getDiscipline()
+  .then((res) => props.disciplines = res)
+      .catch(catchFunction);
 
     await sidekickClient.states
       .getStates()
-      .then((res) => props.data = res)
+      .then((res) => props.states = res)
       .catch(catchFunction);
 
     return {

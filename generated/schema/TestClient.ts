@@ -5,9 +5,11 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
+import { DisciplineService } from './services/DisciplineService';
 import { StatesService } from './services/StatesService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class TestClient {
+    public readonly discipline: DisciplineService;
     public readonly states: StatesService;
     public readonly request: BaseHttpRequest;
     constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
@@ -22,6 +24,7 @@ export class TestClient {
             HEADERS: config?.HEADERS,
             ENCODE_PATH: config?.ENCODE_PATH,
         });
+        this.discipline = new DisciplineService(this.request);
         this.states = new StatesService(this.request);
     }
 }
