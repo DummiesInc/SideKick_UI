@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type GetStateDto = {
+export type UpdateStateDto = {
     id: number;
     name: string;
     abbreviation: string;

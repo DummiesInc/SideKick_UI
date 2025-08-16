@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GetStateDto } from '../models/GetStateDto';
+import type { UpdateStateDto } from '../models/UpdateStateDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class StatesService {
@@ -36,7 +37,7 @@ export class StatesService {
      * @throws ApiError
      */
     public patchStates(
-        requestBody: GetStateDto,
+        requestBody: UpdateStateDto,
     ): CancelablePromise<Array<GetStateDto>> {
         return this.httpRequest.request({
             method: 'PATCH',
@@ -52,7 +53,7 @@ export class StatesService {
      * @throws ApiError
      */
     public putStates(
-        requestBody: GetStateDto,
+        requestBody: UpdateStateDto,
     ): CancelablePromise<Array<GetStateDto>> {
         return this.httpRequest.request({
             method: 'PUT',

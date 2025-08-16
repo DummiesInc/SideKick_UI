@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type GetDisciplineDto = {
-    id: string;
+    id: number;
     name: string;
     abbreviation: string;
     isForProvider: string;

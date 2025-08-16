@@ -1,4 +1,4 @@
-import { ApiError, GetStateDto, GetDisciplineDto } from '@/generated/schema';
+import { ApiError, GetStateDto, GetDisciplineDto , UpdateStateDto} from '@/generated/schema';
 import { sidekickClient } from '@/src/client';
 import getClientErrorMessageAndStatus from '@/src/errors/getClientErrorMessageAndStatus';
 import React from 'react';
@@ -59,6 +59,12 @@ export async function getServerSideProps() {
     errors: []
   };
 
+  const data: UpdateStateDto = {
+    id: 0,
+    name: '',
+    abbreviation: ''
+  }
+
   const catchFunction = (e: ApiError) => {
     props.errors.push(getClientErrorMessageAndStatus(e));
   };
@@ -71,6 +77,8 @@ export async function getServerSideProps() {
       .getStates()
       .then((res) => props.states = res)
       .catch(catchFunction);
+
+    await sidekickClient.states.putStates(data)
 
     return {
       props: props
