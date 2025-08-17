@@ -40,16 +40,10 @@ const About = () => {
   }
 
   async function updateState(state: State): Promise<State> {
-    
     const data = await apiRequest<
-      { state: { name: string; abbreviation: string } },
+      State,
       State
-    >(`${BASE_URL}/${state.id}`, "PUT", {
-      state: {
-        name: state.name,
-        abbreviation: state.abbreviation,
-      },
-    });
+    >(`${BASE_URL}/${state.id}`, "PUT", state);
   
     return StateSchema.parse(data);
   }
