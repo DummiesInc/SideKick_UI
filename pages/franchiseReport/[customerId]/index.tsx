@@ -1,62 +1,64 @@
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/router';
-import { Franchise, fetchFranchiseForCustomer } from '@/src/utils/Services/FranchiseService';
+import React from 'react';
+import {
+  Franchise,
+  FranchiseReportType
+} from '@/src/utils/Services/FranchiseService';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import { BASE_URL } from '@/src/utils/api';
+import FranchiseReportPDF from '@/src/components/ReactPDFs/FranchiseReportPDF';
 
 interface Props {
-  franchises : Franchise[]
+  franchiseReport: FranchiseReportType | null;
+  pdfBase64: any;
 }
 
-const FranchiseReport = ({
-  franchises
-}: Props) => {
-  const router = useRouter();
-  const { customerId } = router.query;
-
-    // useEffect(() => {
-    //     if(router.isReady) {
-    //       (async() => {
-    //         console.log(router.query)
-    //         const data = await fetchFranchiseForCustomer(Number(customerId))
-    //         console.log(data)
-    //       })()
-    //     }
-    // }, [router])
-
-    useEffect(() => {
-      console.log(franchises)
-    }, [])
-
+const FranchiseReport = ({ pdfBase64 }: Props) => {
   return (
-    <div>index</div>
-  )
-}
+    <div>
+      <iframe
+        src={`data:application/pdf;base64,${pdfBase64}`}
+        width="800px"
+        height="950px"
+      />
+    </div>
+  );
+};
 
-export default FranchiseReport
+export default FranchiseReport;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-
   const props: Props = {
-    franchises: []
-  }
+    franchiseReport: null,
+    pdfBase64: null
+  };
 
   const { customerId } = context.params!;
 
   try {
-    const res = await axios.get<Franchise[]>(
+    const res = await axios.get<FranchiseReportType>(
       `${BASE_URL}/franchise/customer/${customerId}`
     );
-    props.franchises = res.data;
+    props.franchiseReport = res.data;
+
+    const { default: ReactPDF } = await import('@react-pdf/renderer');
+    const pdfStream = await ReactPDF.renderToStream(
+      <FranchiseReportPDF franchiseReport={props.franchiseReport} />
+    );
+    const chunks: Buffer[] = [];
+    for await (let chunk of pdfStream) {
+      chunks.push(Buffer.from(chunk));
+    }
+    const pdfBuffer = Buffer.concat(chunks);
+    props.pdfBase64 = pdfBuffer.toString('base64');
 
     return {
-      props: props,
+      props: props
     };
   } catch (err) {
     console.error(err);
     return {
-      notFound: true,
+      notFound: true
     };
   }
 };

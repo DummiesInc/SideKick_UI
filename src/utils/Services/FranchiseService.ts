@@ -10,14 +10,25 @@ const FranchiseSchema = z.object({
   })
 });
 
-export type Franchise = z.infer<typeof FranchiseSchema>;
+const FranchiseReportSchema = z.object({
+  customerName: z.string(),
+  buyInReason: z.string(),
+  vision: z.string(),
+  involvement: z.string(),
+  capital: z.string(),
+  franchises: z.array(FranchiseSchema)
+});
 
-export async function fetchFranchiseForCustomer(customerId: number): Promise<Franchise[]> {
-  console.log(customerId)
-    const data = await apiRequest<undefined, Franchise[]>(
+export type Franchise = z.infer<typeof FranchiseSchema>;
+export type FranchiseReportType = z.infer<typeof FranchiseReportSchema>;
+
+export async function fetchFranchiseForCustomer(
+  customerId: number
+): Promise<FranchiseReportType> {
+  const data = await apiRequest<undefined, FranchiseReportType>(
     `${BASE_URL}/franchise/customer/${customerId}`,
     'GET'
   );
 
-  return data
+  return data;
 }

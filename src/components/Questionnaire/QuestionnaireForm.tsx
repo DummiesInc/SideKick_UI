@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import {
-  Capital,
-  Involvement,
-  Reason,
-  Vision
-} from './enums/questionnaireEnums';
+import { Involvement, Reason, Vision } from './enums/questionnaireEnums';
 import { TextInput } from '../ReactFormComponents/TextInput';
 import { SelectInput } from '../ReactFormComponents/SelectInput';
 import { ToggleInput } from '../ReactFormComponents/ToggleInput';
@@ -15,10 +10,10 @@ import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
 import { Button } from 'flowbite-react';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
 import {
-  Customer,
-  CustomerSchema,
+  CustomerRequest,
   createCustomer
 } from '@/src/utils/Services/CustomerService';
+import { useRouter } from 'next/router';
 
 const buyInReasonOptions = [
   Reason.escapeFullTimeJob,
@@ -40,14 +35,6 @@ const involvementOptions = [
   Involvement.investor
 ];
 
-// These are just array of enum values
-const capitalOptions = [
-  Capital.smallCap,
-  Capital.medCap,
-  Capital.largeCap,
-  Capital.megaCap
-];
-
 const QuestionnaireSchema = z.object({
   firstName: z.string().min(2, 'Please enter your first name'),
   lastName: z.string().min(2, 'Please enter your last name '),
@@ -65,11 +52,9 @@ const QuestionnaireSchema = z.object({
     .nullable()
     .refine((val) => val !== null, { message: 'Select an option' }),
 
-  capitalId: z
-    .string()
-    .refine((val) => val !== '' && val !== '-1', {
-      message: 'Select an option'
-    }),
+  capitalId: z.string().refine((val) => val !== '' && val !== '-1', {
+    message: 'Select an option'
+  }),
   financeRequired: z.boolean().optional().nullable(),
   startDate: z
     .string()
@@ -92,6 +77,7 @@ const initialValues: QuestionnaireForm = {
 };
 
 export const CustomerQuestionnaireForm: React.FC = () => {
+  const router = useRouter();
   const [capitals, setCapitals] = useState<SelectOption[]>([]);
   const {
     register,
@@ -104,20 +90,19 @@ export const CustomerQuestionnaireForm: React.FC = () => {
 
   const onSubmit = async (data: QuestionnaireForm) => {
     try {
-      const payload: Customer = {
+      const payload: CustomerRequest = {
         firstName: data.firstName ?? '',
         lastName: data.lastName ?? '',
-        buyInReason: data.buyInReason ?? '',
-        vision: data.vision ?? '',
-        involvement: data.involvement ?? '',
+        buyInReason: buyInReasonOptions[Number(data.buyInReason)] ?? '',
+        vision: visionOptions[Number(data.vision)] ?? '',
+        involvement: involvementOptions[Number(data.involvement)] ?? '',
         startDate: data.startDate ?? '',
         capitalId: Number(data.capitalId) ?? 1,
         financeRequired: data.financeRequired ?? false
       };
-
-      await createCustomer(payload);
+      const result = await createCustomer(payload);
+      router.push(`/franchiseReport/${result?.id}`);
     } catch (err) {
-      console.log(err);
       alert('Failed to update state');
     }
   };
@@ -158,7 +143,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         placeholder="Select an option"
         options={buyInReasonOptions.map((option, i) => ({
           label: option,
-          value: option
+          value: i
         }))}
       />
 
@@ -170,7 +155,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         placeholder="Select an option"
         options={visionOptions.map((option, i) => ({
           label: option,
-          value: option
+          value: i
         }))}
       />
 
@@ -182,7 +167,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         placeholder="Select an option"
         options={involvementOptions.map((option, i) => ({
           label: option,
-          value: option
+          value: i
         }))}
       />
 

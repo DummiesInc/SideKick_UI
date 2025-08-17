@@ -17,7 +17,6 @@ export async function fetchStates(
     'GET'
   );
   setStates(data);
-  console.log(data);
   return data; // runtime validation
 }
 

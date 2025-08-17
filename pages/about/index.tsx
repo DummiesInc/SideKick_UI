@@ -33,7 +33,6 @@ const About = () => {
   const handleUpdate = async (state: State) => {
     try {
       const data = { ...state, name: state.name + '!' };
-      console.log(data);
       const updated = await updateState({ ...state, name: state.name + '!' });
       setStates(states.map((s) => (s.id === updated.id ? updated : s)));
     } catch (err) {
@@ -77,15 +76,13 @@ const About = () => {
         size="lg"
         className="bg-red-500 hover:bg-red-600"
         onClick={async () => {
-          console.log('Button clicked'); // <- check this
           try {
             const state: State = {
               id: 2,
               name: 'test',
               abbreviation: 'te'
             };
-            const updated = await updateState(state);
-            console.log('Updated state:', updated);
+            await updateState(state);
           } catch (e) {
             console.error(e);
           }

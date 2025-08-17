@@ -52,9 +52,8 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
 
   const onSubmit = async (data: StateFormType) => {
     try {
-      console.log(data);
-      // const updated = await updateState({ id: stateId, ...data });
-      // alert(`State updated: ${updated.name} (${updated.abbreviation})`);
+      const updated = await updateState({ id: stateId, ...data });
+      alert(`State updated: ${updated.name} (${updated.abbreviation})`);
     } catch (err) {
       console.error(err);
       alert('Failed to update state');
