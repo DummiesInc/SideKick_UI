@@ -21,7 +21,7 @@ export function TextInput<T extends FieldValues = FieldValues>(
   const { label, name, register, errors, type = 'text', placeholder } = props;
 
   return (
-    <div>
+    <div className='pt-2 pb-2'>
       <label className="block font-medium mb-1">{label}</label>
       <input
         type={type}

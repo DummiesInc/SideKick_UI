@@ -17,17 +17,26 @@ const StateFormSchema = z.object({
     .length(2, 'Abbreviation must be exactly 2 characters'),
   region: z
     .enum(['West', 'Midwest', 'South', 'Northeast'], 'Select a region')
-    .optional(),
-  isActive: z.boolean().optional(),
-  foundingDate: z.string().optional(),
-  timezone: z.string().optional()
+    .optional().nullable(),
+  isActive: z.boolean().optional().nullable(),
+  foundingDate: z.string().optional().nullable(),
+  timezone: z.string().optional().nullable()
 });
 
-type StateForm = z.infer<typeof StateFormSchema>;
+const initialValues: StateFormType = {
+  name: '',
+  abbreviation: '',
+  region: null,
+  isActive: null,
+  foundingDate: null,
+  timezone: null
+}
+
+type StateFormType = z.infer<typeof StateFormSchema>;
 
 type Props = {
   stateId: number;
-  defaultValues?: StateForm;
+  defaultValues?: StateFormType;
 };
 
 export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
@@ -35,15 +44,16 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<StateForm>({
+  } = useForm<StateFormType>({
     resolver: zodResolver(StateFormSchema),
-    defaultValues: defaultValues || { name: '', abbreviation: '' }
+    defaultValues: defaultValues || initialValues
   });
 
-  const onSubmit = async (data: StateForm) => {
+  const onSubmit = async (data: StateFormType) => {
     try {
-      const updated = await updateState({ id: stateId, ...data });
-      alert(`State updated: ${updated.name} (${updated.abbreviation})`);
+      console.log(data)
+      // const updated = await updateState({ id: stateId, ...data });
+      // alert(`State updated: ${updated.name} (${updated.abbreviation})`);
     } catch (err) {
       console.error(err);
       alert('Failed to update state');
@@ -56,7 +66,7 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
       className="max-w-md mx-auto space-y-4"
     >
       {/* Name field */}
-      <TextInput<StateForm>
+      <TextInput<StateFormType>
         label="Name"
         name="name"
         register={register}
@@ -65,7 +75,7 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
       />
 
       {/* Abbreviation field */}
-      <TextInput<StateForm>
+      <TextInput<StateFormType>
         label="Abbreviation"
         name="abbreviation"
         register={register}
@@ -73,7 +83,7 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
         placeholder="Enter abbreviation (2 letters)"
       />
 
-      <RadioInput<StateForm>
+      <RadioInput<StateFormType>
         label="Region"
         name="region"
         register={register}
@@ -86,21 +96,21 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
         ]}
       />
 
-      <ToggleInput<StateForm>
+      <ToggleInput<StateFormType>
         label="Active?"
         name="isActive"
         register={register}
         errors={errors}
       />
 
-      <DatePickerInput<StateForm>
+      <DatePickerInput<StateFormType>
         label="Founding Date"
         name="foundingDate"
         register={register}
         errors={errors}
       />
 
-      <SelectInput<StateForm>
+      <SelectInput<StateFormType>
         label="Timezone"
         name="timezone"
         register={register}

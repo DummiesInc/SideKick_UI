@@ -28,7 +28,7 @@ export function RadioInput<T extends FieldValues>({
   errors
 }: RadioInputProps<T>) {
   return (
-    <div>
+    <div className='pt-2 pb-2'>
       <p className="font-medium mb-1">{label}</p>
       <div className="flex gap-4">
         {options.map((option) => (

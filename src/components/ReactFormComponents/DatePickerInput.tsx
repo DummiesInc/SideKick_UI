@@ -23,7 +23,7 @@ export function DatePickerInput<T extends FieldValues>({
   placeholder
 }: DatePickerInputProps<T>) {
   return (
-    <div>
+    <div className='pt-2 pb-2'>
       <label className="block font-medium mb-1">{label}</label>
       <input
         type="date"

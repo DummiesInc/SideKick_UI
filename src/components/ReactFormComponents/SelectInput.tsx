@@ -30,7 +30,7 @@ export function SelectInput<T extends FieldValues>({
   placeholder
 }: SelectInputProps<T>) {
   return (
-    <div>
+    <div className='pt-2 pb-2'>
       <label className="block font-medium mb-1">{label}</label>
       <select
         {...register(name)}

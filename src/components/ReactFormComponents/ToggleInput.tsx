@@ -21,7 +21,7 @@ export function ToggleInput<T extends FieldValues>({
   errors
 }: ToggleInputProps<T>) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 pt-2 pb-2">
       <label className="flex items-center gap-2">
         <input
           type="checkbox"

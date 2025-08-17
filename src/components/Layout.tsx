@@ -27,7 +27,7 @@ export default function Layout({ children }: LayoutProps) {
           />
         </NavbarBrand>
         <NavbarToggle />
-        <NavbarCollapse>
+        {/* <NavbarCollapse>
           <NavbarLink as={Link} href="/" active={router.pathname === '/'}>
             Home
           </NavbarLink>
@@ -45,11 +45,11 @@ export default function Layout({ children }: LayoutProps) {
           >
             Contact
           </NavbarLink>
-        </NavbarCollapse>
+        </NavbarCollapse> */}
       </Navbar>
 
       {/* Page content */}
-      <main className="flex-grow p-4">{children}</main>
+      <main className="flex-grow p-4 flex justify-center items-start mt-14">{children}</main>
 
       {/* Optional footer */}
       <footer className="bg-gray-100 text-center p-4 text-sm text-gray-500">
