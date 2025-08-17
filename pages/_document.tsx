@@ -1,10 +1,10 @@
 import { Html, Head, Main, NextScript } from 'next/document';
-import { ThemeModeScript } from "flowbite-react";
+import { ThemeModeScript } from 'flowbite-react';
 
 export default function Document() {
   return (
     <Html lang="en" suppressHydrationWarning>
-      <Head >
+      <Head>
         <ThemeModeScript />
       </Head>
       <body className="antialiased">

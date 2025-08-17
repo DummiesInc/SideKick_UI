@@ -3,8 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type GetStateDto = {
-    id: number;
-    name: string;
-    abbreviation: string;
+  id: number;
+  name: string;
+  abbreviation: string;
 };
-

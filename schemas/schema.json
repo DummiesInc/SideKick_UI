@@ -8,9 +8,7 @@
     "/up": {},
     "/states": {
       "get": {
-        "tags": [
-          "States"
-        ],
+        "tags": ["States"],
         "summary": "index states",
         "responses": {
           "200": {
@@ -47,9 +45,7 @@
     },
     "/states/{id}": {
       "get": {
-        "tags": [
-          "States"
-        ],
+        "tags": ["States"],
         "summary": "show states",
         "responses": {
           "200": {
@@ -84,9 +80,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "States"
-        ],
+        "tags": ["States"],
         "summary": "update states",
         "responses": {
           "200": {
@@ -131,9 +125,7 @@
         }
       },
       "put": {
-        "tags": [
-          "States"
-        ],
+        "tags": ["States"],
         "summary": "update states",
         "responses": {
           "200": {
@@ -180,9 +172,7 @@
     },
     "/discipline": {
       "get": {
-        "tags": [
-          "Discipline"
-        ],
+        "tags": ["Discipline"],
         "summary": "index discipline",
         "responses": {
           "200": {
@@ -234,11 +224,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "abbreviation"
-        ],
+        "required": ["id", "name", "abbreviation"],
         "additionalProperties": false
       },
       "GetStateDto": {
@@ -254,11 +240,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "abbreviation"
-        ],
+        "required": ["id", "name", "abbreviation"],
         "additionalProperties": false
       },
       "GetDisciplineDto": {
@@ -277,12 +259,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "abbreviation",
-          "isForProvider"
-        ],
+        "required": ["id", "name", "abbreviation", "isForProvider"],
         "additionalProperties": false
       }
     }

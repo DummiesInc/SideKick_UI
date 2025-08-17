@@ -6,16 +6,16 @@ import type { GetDisciplineDto } from '../models/GetDisciplineDto';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import type { BaseHttpRequest } from '../core/BaseHttpRequest';
 export class DisciplineService {
-    constructor(public readonly httpRequest: BaseHttpRequest) {}
-    /**
-     * index discipline
-     * @returns GetDisciplineDto OK
-     * @throws ApiError
-     */
-    public getDiscipline(): CancelablePromise<Array<GetDisciplineDto>> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/discipline',
-        });
-    }
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+  /**
+   * index discipline
+   * @returns GetDisciplineDto OK
+   * @throws ApiError
+   */
+  public getDiscipline(): CancelablePromise<Array<GetDisciplineDto>> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/discipline'
+    });
+  }
 }

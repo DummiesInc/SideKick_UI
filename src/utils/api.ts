@@ -1,8 +1,8 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 
 export async function apiRequest<TRequest, TResponse>(
   url: string,
-  method: "GET" | "POST" | "PUT" | "DELETE",
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   data?: TRequest,
   config?: AxiosRequestConfig
 ): Promise<TResponse> {
@@ -10,8 +10,8 @@ export async function apiRequest<TRequest, TResponse>(
     url,
     method,
     data,
-    headers: { "Content-Type": "application/json" },
-    ...config,
+    headers: { 'Content-Type': 'application/json' },
+    ...config
   });
 
   return response.data;
