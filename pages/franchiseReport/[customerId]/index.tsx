@@ -16,11 +16,18 @@ interface Props {
 const FranchiseReport = ({ pdfBase64 }: Props) => {
   return (
     <div>
-      <iframe
-        src={`data:application/pdf;base64,${pdfBase64}`}
-        width="800px"
-        height="950px"
-      />
+      {pdfBase64 === null ? (
+        <>
+          <h5>The report you're looking for doesn't exist</h5>
+          <p>Please head back to the main menu</p>
+        </>
+      ) : (
+        <iframe
+          src={`data:application/pdf;base64,${pdfBase64}`}
+          width="800px"
+          height="950px"
+        />
+      )}
     </div>
   );
 };
@@ -56,9 +63,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: props
     };
   } catch (err) {
-    console.error(err);
     return {
-      notFound: true
+      props: props
     };
   }
 };
