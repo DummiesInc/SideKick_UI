@@ -17,7 +17,8 @@ const StateFormSchema = z.object({
     .length(2, 'Abbreviation must be exactly 2 characters'),
   region: z
     .enum(['West', 'Midwest', 'South', 'Northeast'], 'Select a region')
-    .optional().nullable(),
+    .optional()
+    .nullable(),
   isActive: z.boolean().optional().nullable(),
   foundingDate: z.string().optional().nullable(),
   timezone: z.string().optional().nullable()
@@ -30,7 +31,7 @@ const initialValues: StateFormType = {
   isActive: null,
   foundingDate: null,
   timezone: null
-}
+};
 
 type StateFormType = z.infer<typeof StateFormSchema>;
 
@@ -51,7 +52,7 @@ export const StateForm: React.FC<Props> = ({ stateId, defaultValues }) => {
 
   const onSubmit = async (data: StateFormType) => {
     try {
-      console.log(data)
+      console.log(data);
       // const updated = await updateState({ id: stateId, ...data });
       // alert(`State updated: ${updated.name} (${updated.abbreviation})`);
     } catch (err) {

@@ -49,7 +49,9 @@ export default function Layout({ children }: LayoutProps) {
       </Navbar>
 
       {/* Page content */}
-      <main className="flex-grow p-4 flex justify-center items-start mt-14">{children}</main>
+      <main className="flex-grow p-4 flex justify-center items-start mt-14">
+        {children}
+      </main>
 
       {/* Optional footer */}
       <footer className="bg-gray-100 text-center p-4 text-sm text-gray-500">
