@@ -9,10 +9,7 @@ import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
 import { Button } from 'flowbite-react';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
-import {
-  CustomerRequest,
-  createCustomer
-} from '@/src/utils/Services/CustomerService';
+import { Customer, createCustomer } from '@/src/utils/Services/CustomerService';
 import { useRouter } from 'next/router';
 
 const buyInReasonOptions = [
@@ -90,7 +87,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
 
   const onSubmit = async (data: QuestionnaireForm) => {
     try {
-      const payload: CustomerRequest = {
+      const payload: Customer = {
         firstName: data.firstName ?? '',
         lastName: data.lastName ?? '',
         buyInReason: buyInReasonOptions[Number(data.buyInReason)] ?? '',
