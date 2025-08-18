@@ -1,11 +1,12 @@
 import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
-import { useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import type { LatLngExpression } from 'leaflet';
 import {
   MapRequest,
   getInvestmentLocations
 } from '@/src/utils/Services/MapService';
+import { InvestmentPositionType } from '@/pages/map';
 
 // Dynamically import React-Leaflet
 const MapContainer = dynamic(
@@ -27,21 +28,19 @@ const MapEventHandler = dynamic(() => import('./MapEvenHalder'), {
   ssr: false
 });
 
-interface InvestmentPositionType {
-  franchiseId: number;
-  franchiseName: string;
-  capiSize: string;
-  location: [number, number];
+interface Props {
+  investmentPositions: InvestmentPositionType[];
+  setInvestmentPositions: Dispatch<SetStateAction<InvestmentPositionType[]>>;
 }
 
-const FranchiseFinder = () => {
+const FranchiseFinder: FC<Props> = ({
+  investmentPositions,
+  setInvestmentPositions
+}) => {
   const [icon, setIcon] = useState<any>(null);
   const [currentPosition, _setPosition] = useState<LatLngExpression>([
     41.252, -95.998
   ]);
-  const [investmentPositions, setInvestmentPositions] = useState<
-    InvestmentPositionType[]
-  >([]);
 
   // ✅ Load Leaflet only on client
   useEffect(() => {
@@ -84,7 +83,7 @@ const FranchiseFinder = () => {
   };
 
   return (
-    <div style={{ height: '70vh', width: '70%' }}>
+    <div style={{ height: '70vh', width: '100%' }}>
       <MapContainer
         center={currentPosition}
         zoom={13}
