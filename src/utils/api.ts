@@ -6,13 +6,15 @@ export async function apiRequest<TRequest, TResponse>(
   url: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   data?: TRequest,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
+  params?: any
 ): Promise<TResponse> {
   const response = await axios.request<TResponse>({
     url,
     method,
     data,
     headers: { 'Content-Type': 'application/json' },
+    params: params,
     ...config
   });
 
