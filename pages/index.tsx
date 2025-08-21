@@ -8,11 +8,6 @@ export default function Home() {
       <h5 className="text-2xl font-bold tracking-tight text-gray-900 mb-4">
         Franchise Questionnaire
       </h5>
-
-      <p className="tracking-tight text-gray-900 mb-4">
-        Please answer the following assessments so we can find you the perfect
-        franchise
-      </p>
       <CustomerQuestionnaireForm />
     </div>
   );

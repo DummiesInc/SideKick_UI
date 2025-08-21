@@ -26,7 +26,7 @@ const visionOptions = [
   Vision.legacy
 ];
 
-const involvementOptions = [
+export const involvementOptions = [
   Involvement.fullTime,
   Involvement.partTime,
   Involvement.investor
@@ -106,8 +106,12 @@ export const CustomerQuestionnaireForm: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await fetchCapitals();
-      setCapitals(data);
+      try {
+        const data = await fetchCapitals();
+        setCapitals(data);
+      } catch (_err) {
+        setCapitals([]);
+      }
     })();
   }, []);
 
