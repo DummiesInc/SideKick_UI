@@ -1,11 +1,20 @@
-import { Navbar, NavbarBrand, NavbarToggle } from 'flowbite-react';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarLink,
+  NavbarToggle,
+  NavbarCollapse
+} from 'flowbite-react';
+import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
+import Link from 'next/link';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const router = useRouter();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar fluid className="custom-navbar">
@@ -16,6 +25,25 @@ export default function Layout({ children }: LayoutProps) {
           />
         </NavbarBrand>
         <NavbarToggle />
+        <NavbarCollapse>
+          <NavbarLink as={Link} href="/" active={router.pathname === '/'}>
+            Home
+          </NavbarLink>
+          <NavbarLink
+            as={Link}
+            href="/map"
+            active={router.pathname === '/about'}
+          >
+            Franchise Map
+          </NavbarLink>
+          <NavbarLink
+            as={Link}
+            href="/map"
+            active={router.pathname === '/contact'}
+          >
+            Map
+          </NavbarLink>
+        </NavbarCollapse>
       </Navbar>
 
       {/* Page content */}

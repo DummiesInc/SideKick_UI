@@ -172,7 +172,6 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         }))}
       />
 
-      {/* Can you make modification to the SelectInput so it can expect either string or number? */}
       <SelectInput<QuestionnaireForm>
         label="What is your approximate available liquid capital for investment?"
         name="capitalId"

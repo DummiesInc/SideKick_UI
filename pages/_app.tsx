@@ -2,22 +2,23 @@ import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { createTheme, ThemeProvider } from 'flowbite-react';
 import Layout from '@/src/components/Layout';
+import { ThemeInit } from '../.flowbite-react/init';
 
 const customTheme = createTheme({
-  button: {
-    color: {
-      primary: 'bg-red-500 hover:bg-red-600',
-      secondary: 'bg-blue-500 hover:bg-blue-600'
-    },
-    size: {
-      lg: 'px-6 py-3 text-lg'
+  navbar: {
+    link: {
+      active: {
+        on: 'text-orange-500 font-semibold', // ✅ active link is black
+        off: 'text-gray-700 hover:text-orange-400' // inactive
+      }
     }
   }
 });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={customTheme}>
+      <ThemeInit />
       <Layout>
         <Component {...pageProps} />
       </Layout>
