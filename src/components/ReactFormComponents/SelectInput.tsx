@@ -1,4 +1,5 @@
 // components/SelectInput.tsx
+import { Select, Label } from 'flowbite-react';
 import React from 'react';
 import {
   FieldErrors,
@@ -33,10 +34,10 @@ export function SelectInput<T extends FieldValues>({
 }: SelectInputProps<T>) {
   return (
     <div className="pt-2 pb-2">
-      <label className="block font-medium mb-1">{label}</label>
-      <select
+      <Label className="block font-medium mb-1">{label}</Label>
+      <Select
         {...register(name)}
-        className="w-full border border-gray-300 p-2 rounded"
+        // className="w-full border border-gray-300 p-2 rounded"
         onChange={(e) => {
           register(name as any).onChange(e);
           if (onChange) onChange(e.target.value);
@@ -48,7 +49,7 @@ export function SelectInput<T extends FieldValues>({
             {option.label}
           </option>
         ))}
-      </select>
+      </Select>
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">
           {errors[name]?.message as string}

@@ -3,7 +3,7 @@ import React from 'react';
 
 const Franchise = () => {
   return (
-    <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm max-w-xl">
+    <div className=" w-full rounded-lg shadow-sm max-w-xl">
       <FinancialProfile />
     </div>
   );

@@ -1,3 +1,4 @@
+import { TextInput, Label } from 'flowbite-react';
 import React from 'react';
 import {
   FieldErrors,
@@ -15,20 +16,15 @@ type TextInputProps<T extends FieldValues> = {
   placeholder?: string;
 };
 
-export function TextInput<T extends FieldValues = FieldValues>(
+export function ReactTextInput<T extends FieldValues = FieldValues>(
   props: TextInputProps<T>
 ) {
   const { label, name, register, errors, type = 'text', placeholder } = props;
 
   return (
     <div className="pt-2 pb-2">
-      <label className="block font-medium mb-1">{label}</label>
-      <input
-        type={type}
-        {...register(name)}
-        placeholder={placeholder}
-        className="w-full border border-gray-300 p-2 rounded"
-      />
+      <Label className="block font-medium mb-1">{label}</Label>
+      <TextInput {...register(name)} placeholder={placeholder} type={type} />
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">
           {errors[name]?.message as string}

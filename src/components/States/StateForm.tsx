@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { updateState } from './StateService';
-import { TextInput } from '../ReactFormComponents/TextInput';
+import { TextInput } from '../ReactFormComponents/ReactTextInput';
 import { RadioInput } from '../ReactFormComponents/RadioInput';
 import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';

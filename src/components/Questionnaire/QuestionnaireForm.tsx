@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Involvement, Reason, Vision } from './enums/questionnaireEnums';
-import { TextInput } from '../ReactFormComponents/TextInput';
+import { ReactTextInput } from '../ReactFormComponents/ReactTextInput';
 import { SelectInput } from '../ReactFormComponents/SelectInput';
 import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
@@ -12,6 +12,7 @@ import { fetchCapitals } from '@/src/utils/Services/CapitalService';
 import { Customer, createCustomer } from '@/src/utils/Services/CustomerService';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
+import { FlowDatePicker } from '../ReactFormComponents/FlowDatePicker';
 
 const buyInReasonOptions = [
   Reason.escapeFullTimeJob,
@@ -55,7 +56,7 @@ const QuestionnaireSchema = z.object({
   }),
   financeRequired: z.boolean().optional().nullable(),
   startDate: z
-    .string()
+    .date()
     .optional()
     .nullable()
     .refine((val) => val !== null, { message: 'Select an option' })
@@ -81,6 +82,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting }
   } = useForm<QuestionnaireForm>({
     resolver: zodResolver(QuestionnaireSchema),
@@ -95,10 +97,11 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         buyInReason: buyInReasonOptions[Number(data.buyInReason)] ?? '',
         vision: visionOptions[Number(data.vision)] ?? '',
         involvement: involvementOptions[Number(data.involvement)] ?? '',
-        startDate: data.startDate ?? '',
+        startDate: data.startDate?.toISOString() ?? '',
         capitalId: Number(data.capitalId) ?? 1,
         financeRequired: data.financeRequired ?? false
       };
+      console.log(payload);
       const result = await createCustomer(payload);
       toast.success('Submitted!');
       router.push(`/franchiseReport/${result?.id}`);
@@ -121,10 +124,10 @@ export const CustomerQuestionnaireForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto space-y-4 "
+      className="max-w-md mx-auto space-y-4"
     >
       <ToastContainer />
-      <TextInput<QuestionnaireForm>
+      <ReactTextInput<QuestionnaireForm>
         label="First Name"
         name="firstName"
         register={register}
@@ -132,7 +135,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         placeholder="Enter First Name"
       />
 
-      <TextInput<QuestionnaireForm>
+      <ReactTextInput<QuestionnaireForm>
         label="Last Name"
         name="lastName"
         register={register}
@@ -192,14 +195,15 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         errors={errors}
       />
 
-      <DatePickerInput<QuestionnaireForm>
-        label="When are you looking to start the process?"
+      <FlowDatePicker
         name="startDate"
-        register={register}
+        label="Start Date"
+        placeholder="Pick a start date"
+        control={control}
         errors={errors}
       />
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-5">
         <Button
           color="secondary"
           size="lg"

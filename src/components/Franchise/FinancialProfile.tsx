@@ -1,52 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'flowbite-react';
-import React from 'react';
+import { Button, Datepicker, Label } from 'flowbite-react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { TextInput } from '../ReactFormComponents/TextInput';
-
-const FinancialProfileFormSchema = z.object({
-  name: z.string(),
-  website: z.string().nullable(),
-  mission: z.string().nullable(),
-  contactPerson: z.string(),
-  phoneNumber: z.string(),
-  industuryCategory: z.string(),
-  brandReputation: z.object({
-    foundingYear: z.string(),
-    franchiseProgramYear: z.string(),
-    // nonoptional?
-    totalUnits: z.int().nullable().nonoptional(),
-    growthRate: z.int(),
-    satisfactionScore: z.int()
-  }),
-  financialInformation: z.object({
-    franchiseFee: z.int(),
-    capital: z.object({
-      // total investment range
-      name: z.string()
-    }),
-    royaltyFee: z.int(),
-    marketingFee: z.int(),
-    softwareLicenseFee: z.int(),
-    renewalFee: z.int(),
-    trainingFee: z.int(),
-    supplyFee: z.int(),
-    unitGrossRevenue: z.int(),
-    profitMargin: z.int().nullable(),
-    // in months?
-    breakEvenTimelineEst: z.int(),
-    netWorthRequirement: z.int(),
-    liquidityRequirement: z.int()
-  }),
-  operationInformation: z.object({
-    // update this and make it a DB table
-    ownershipModel: z.string(),
-    staffCountRequired: z.int(),
-    approvedSupplierOnly: z.boolean(),
-    coporateSupplierOnly: z.boolean()
-  })
-});
+import { ReactTextInput } from '../ReactFormComponents/ReactTextInput';
+import { FinancialProfileFormSchema } from './FinancialProfileHelper';
+import Divider from '@/src/utils/components/Divider';
+import { fetchCapitals } from '@/src/utils/Services/CapitalService';
+import { SelectInput } from '../ReactFormComponents/SelectInput';
+import { FlowDatePicker } from '../ReactFormComponents/FlowDatePicker';
 
 type FinancialProfileForm = z.infer<typeof FinancialProfileFormSchema>;
 
@@ -58,7 +20,7 @@ const initialValues: FinancialProfileForm = {
   phoneNumber: '',
   industuryCategory: '',
   brandReputation: {
-    foundingYear: '',
+    foundingYear: null,
     franchiseProgramYear: '',
     totalUnits: null,
     growthRate: 0,
@@ -90,53 +52,173 @@ const initialValues: FinancialProfileForm = {
 };
 
 const FinancialProfile = () => {
+  const [capitals, setCapitals] = useState<SelectOption[]>([]);
+
   const {
+    getValues,
     register,
     handleSubmit,
+    control,
+    getFieldState,
     formState: { errors, isSubmitting }
   } = useForm<FinancialProfileForm>({
     resolver: zodResolver(FinancialProfileFormSchema),
     defaultValues: initialValues
   });
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetchCapitals();
+        setCapitals(data);
+      } catch (_err) {
+        setCapitals([]);
+      }
+    })();
+  }, []);
+
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <form onSubmit={() => {}}>
-        <div className="col-span-12 md:col-span-12 lg:col-span-3">
-          <TextInput<FinancialProfileForm>
+    <div
+      className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm max-w-xl"
+      style={
+        {
+          // border: 'solid 2px red',
+        }
+      }
+    >
+      <form
+        onSubmit={() => {}}
+        style={
+          {
+            // border: 'solid 2px red'
+          }
+        }
+      >
+        <h5 className="font-semibold text-gray-900 underline decoration-blue-500 mb-5 mt-5">
+          Franchise Information
+        </h5>
+        <div className="grid grid-flow-col grid-rows-3 grid-cols-1 gap-4">
+          <ReactTextInput
             label="Franchise Name"
             name="name"
             register={register}
             errors={errors}
             placeholder="Franchise Name"
           />
+
+          <ReactTextInput
+            label="Website"
+            name="website"
+            register={register}
+            errors={errors}
+            placeholder="Website"
+          />
+
+          <ReactTextInput
+            label="Mission"
+            name="mission"
+            register={register}
+            errors={errors}
+            placeholder="Mission"
+          />
+
+          <ReactTextInput
+            label="Contact Person"
+            name="contactPerson"
+            register={register}
+            errors={errors}
+            placeholder="Contact Person"
+          />
+
+          <ReactTextInput
+            label="Contact Phone Number"
+            name="phoneNumber"
+            register={register}
+            errors={errors}
+            placeholder="Contact Number"
+          />
         </div>
 
-        <TextInput<FinancialProfileForm>
-          label="Website"
-          name="website"
-          register={register}
-          errors={errors}
-          placeholder="Website"
-        />
+        <Divider />
 
-        <TextInput<FinancialProfileForm>
-          label="Mission"
-          name="mission"
-          register={register}
-          errors={errors}
-          placeholder="Mission"
-        />
+        <div>
+          <h5 className="font-semibold text-gray-900 underline decoration-blue-500 mb-5 mt-5">
+            Brand Reputation
+          </h5>
 
-        <TextInput<FinancialProfileForm>
-          label="Contact Person"
-          name="contactPerson"
-          register={register}
-          errors={errors}
-          placeholder="Contact Person"
-        />
+          <div className="grid grid-flow-col grid-rows-2 grid-cols-2 gap-4">
+            <FlowDatePicker
+              name="brandReputation.foundingYear"
+              label="Brand Founding Year"
+              placeholder="Brand Founding Year"
+              control={control}
+              errors={errors}
+            />
 
-        <div className="flex justify-center items-center">
+            <ReactTextInput
+              label="Franchise Program Year"
+              name="brandReputation.franchiseProgramYear"
+              register={register}
+              errors={errors}
+              placeholder="Franchise Program Year"
+            />
+
+            <ReactTextInput
+              label="Total Units"
+              name="brandReputation.totalUnits"
+              register={register}
+              errors={errors}
+              placeholder="Total Units"
+            />
+            <ReactTextInput
+              label="Growth Rate"
+              name="brandReputation.growthRate"
+              register={register}
+              errors={errors}
+              placeholder="Growth Rate"
+              type="number"
+            />
+
+            <ReactTextInput
+              label="Satisfaction Score"
+              name="brandReputation.satisfactionScore"
+              register={register}
+              errors={errors}
+              placeholder="Satisfaction Score"
+              type="number"
+            />
+          </div>
+        </div>
+
+        <Divider />
+
+        <div>
+          <h5 className="font-semibold text-gray-900 underline decoration-blue-500 mb-5 mt-5">
+            Financial Information
+          </h5>
+
+          <div className="grid grid-flow-col grid-rows-2 grid-cols-2 gap-4">
+            <ReactTextInput
+              label="Franchise Fee"
+              name="financialInformation.franchiseFee"
+              register={register}
+              errors={errors}
+              placeholder="Franchise Fee"
+              type="number"
+            />
+
+            <SelectInput
+              label="Investment Range"
+              name="financialInformation.capital.name"
+              register={register}
+              errors={errors}
+              placeholder="Select an option"
+              options={capitals}
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center mt-5">
           <Button
             color="secondary"
             size="lg"

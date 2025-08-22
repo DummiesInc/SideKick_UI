@@ -1,5 +1,6 @@
 // components/ToggleInput.tsx
 import React from 'react';
+import { Checkbox, Label } from 'flowbite-react';
 import {
   FieldErrors,
   FieldValues,
@@ -22,14 +23,14 @@ export function ToggleInput<T extends FieldValues>({
 }: ToggleInputProps<T>) {
   return (
     <div className="flex items-center gap-2 pt-2 pb-2">
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
+      <Label className="flex items-center gap-2">
+        <Checkbox
+          // type="checkbox"
           {...register(name)}
           className="w-5 h-5 rounded border-gray-300"
         />
         {label}
-      </label>
+      </Label>
       {errors[name] && (
         <p className="text-red-500 text-sm mt-1">
           {errors[name]?.message as string}
