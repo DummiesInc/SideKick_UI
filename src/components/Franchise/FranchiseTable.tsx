@@ -113,25 +113,27 @@ const FranchiseTable = () => {
       }}
     >
       <div>
-        <TextInput
-          style={{
-            marginBottom: 20
-          }}
-          placeholder={'Franchise name'}
-          onChange={async (e) => {
-            table.setGlobalFilter(String(e.target.value));
-            const filter: FranchiseFilter = {
-              franchiseName: e.target.value
-            };
-            await fetchFranchises(
-              currentPage,
-              setCurrentPage,
-              setTotalPages,
-              setData,
-              filter
-            );
-          }}
-        />
+        <If condition={!isLoading}>
+          <TextInput
+            style={{
+              marginBottom: 20
+            }}
+            placeholder={'Franchise name'}
+            onChange={async (e) => {
+              table.setGlobalFilter(String(e.target.value));
+              const filter: FranchiseFilter = {
+                franchiseName: e.target.value
+              };
+              await fetchFranchises(
+                currentPage,
+                setCurrentPage,
+                setTotalPages,
+                setData,
+                filter
+              );
+            }}
+          />
+        </If>
       </div>
       <If
         condition={isLoading}
