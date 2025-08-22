@@ -66,20 +66,24 @@ const FranchiseFinder: FC<Props> = ({
       south: _southWest.lat,
       west: _southWest.lng
     };
-    const data = await getInvestmentLocations(locationObj);
-    setInvestmentPositions(
-      data
-        ? data?.map((item) => {
-            const obj: InvestmentPositionType = {
-              franchiseId: item.franchise.id,
-              franchiseName: item.franchise.name,
-              capiSize: item.franchise.capital.name,
-              location: [item.latitude, item.longitude]
-            };
-            return obj;
-          })
-        : []
-    );
+    try {
+      const data = await getInvestmentLocations(locationObj);
+      setInvestmentPositions(
+        data
+          ? data?.map((item) => {
+              const obj: InvestmentPositionType = {
+                franchiseId: item.franchise.id,
+                franchiseName: item.franchise.name,
+                capiSize: item.franchise.capital.name,
+                location: [item.latitude, item.longitude]
+              };
+              return obj;
+            })
+          : []
+      );
+    } catch (e) {
+      setInvestmentPositions([]);
+    }
   };
 
   return (

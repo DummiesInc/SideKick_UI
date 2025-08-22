@@ -38,17 +38,26 @@ export default function Layout({ children }: LayoutProps) {
           </NavbarLink>
           <NavbarLink
             as={Link}
-            href="/map"
-            active={router.pathname === '/contact'}
+            href="/franchises"
+            active={router.pathname === '/franchises'}
           >
-            Map
+            Franchises
           </NavbarLink>
         </NavbarCollapse>
       </Navbar>
 
       {/* Page content */}
       <main className="flex-grow p-4 flex justify-center items-start mt-14">
-        {children}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%'
+          }}
+        >
+          {children}
+        </div>
       </main>
 
       {/* Optional footer */}

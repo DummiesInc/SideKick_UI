@@ -11,6 +11,7 @@ import { Button } from 'flowbite-react';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
 import { Customer, createCustomer } from '@/src/utils/Services/CustomerService';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
 
 const buyInReasonOptions = [
   Reason.escapeFullTimeJob,
@@ -75,6 +76,7 @@ const initialValues: QuestionnaireForm = {
 
 export const CustomerQuestionnaireForm: React.FC = () => {
   const router = useRouter();
+
   const [capitals, setCapitals] = useState<SelectOption[]>([]);
   const {
     register,
@@ -98,9 +100,10 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         financeRequired: data.financeRequired ?? false
       };
       const result = await createCustomer(payload);
+      toast.success('Submitted!');
       router.push(`/franchiseReport/${result?.id}`);
     } catch (err) {
-      alert('Failed to update state');
+      toast.error('Failed to submit!');
     }
   };
 
@@ -120,6 +123,7 @@ export const CustomerQuestionnaireForm: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto space-y-4 "
     >
+      <ToastContainer />
       <TextInput<QuestionnaireForm>
         label="First Name"
         name="firstName"

@@ -1,7 +1,7 @@
 import { BASE_URL, apiRequest } from '@/src/utils/api';
 import { z } from 'zod';
 
-export const CustomerSchema = z.object({
+export const customerSchema = z.object({
   id: z.number().optional().nullable(),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
@@ -13,7 +13,7 @@ export const CustomerSchema = z.object({
   startDate: z.string().optional()
 });
 
-export type Customer = z.infer<typeof CustomerSchema>;
+export type Customer = z.infer<typeof customerSchema>;
 
 export async function createCustomer(customer: Customer): Promise<Customer> {
   const data = await apiRequest<Customer, Customer>(

@@ -1,12 +1,12 @@
 import { BASE_URL, apiRequest } from '@/src/utils/api';
 import { z } from 'zod';
 
-const CapitalSchema = z.object({
+const capitalSchema = z.object({
   id: z.number(),
   name: z.string()
 });
 
-export type Capital = z.infer<typeof CapitalSchema>;
+export type Capital = z.infer<typeof capitalSchema>;
 
 export async function fetchCapitals(): Promise<SelectOption[]> {
   const data = await apiRequest<undefined, Capital[]>(
