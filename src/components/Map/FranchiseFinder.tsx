@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import type { LatLngExpression } from 'leaflet';
 import {
-  MapRequest,
+  RequestMapDto,
   getInvestmentLocations
 } from '@/src/utils/Services/MapService';
 import { InvestmentPositionType } from '@/pages/map';
@@ -60,7 +60,7 @@ const FranchiseFinder: FC<Props> = ({
   const handleBoundsChange = async (bounds: any) => {
     const { _northEast, _southWest } = bounds;
 
-    const locationObj: MapRequest = {
+    const locationObj: RequestMapDto = {
       north: _northEast.lat,
       east: _northEast.lng,
       south: _southWest.lat,

@@ -53,11 +53,11 @@ const franchiseTableFilter = z.object({
   franchiseName: z.string().nullable().optional()
 });
 
-export type FranchiseTableType = z.infer<typeof franchiseTableSchema>;
+export type GetFranchiseDto = z.infer<typeof franchiseTableSchema>;
 export type FranchiseData = z.infer<typeof franchiseDataSchema>;
 export type FranchiseFilter = z.infer<typeof franchiseTableFilter>;
 
-export async function fetchFranchises(
+export async function getFranchises(
   page: number,
   setCurrentPage: (value: React.SetStateAction<number>) => void,
   setTotalPages: (value: React.SetStateAction<number>) => void,
@@ -65,7 +65,7 @@ export async function fetchFranchises(
   param?: FranchiseFilter
 ) {
   try {
-    const data = await apiRequest<undefined, FranchiseTableType>(
+    const data = await apiRequest<undefined, GetFranchiseDto>(
       `${BASE_URL}/franchises`,
       'GET',
       undefined,
@@ -79,9 +79,19 @@ export async function fetchFranchises(
     setCurrentPage(page);
     setData(data?.franchises ?? []);
     setTotalPages(data.totalPages === 0 ? 1 : data.totalPages);
-  } catch (err) {
+  } catch (_err) {
     setCurrentPage(1);
     setData([]);
     setTotalPages(1);
   }
+}
+
+export async function getFranchiseProfile(franchiseId: string) {
+  try {
+    const data = await apiRequest<undefined, GetFranchiseDto>(
+      `${BASE_URL}/franchise/${franchiseId}`,
+      'GET'
+    );
+    console.log(data);
+  } catch (err) {}
 }

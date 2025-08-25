@@ -22,14 +22,14 @@ export const MapResponseSchema = z.object({
   })
 });
 
-export type MapRequest = z.infer<typeof MapRequestSchema>;
+export type RequestMapDto = z.infer<typeof MapRequestSchema>;
 
-export type MapResponse = z.infer<typeof MapResponseSchema>;
+export type GetMapDto = z.infer<typeof MapResponseSchema>;
 
 export async function getInvestmentLocations(
-  map: MapRequest
-): Promise<MapResponse[]> {
-  const data = await apiRequest<MapRequest, MapResponse[]>(
+  map: RequestMapDto
+): Promise<GetMapDto[]> {
+  const data = await apiRequest<RequestMapDto, GetMapDto[]>(
     `${BASE_URL}/investment/location`,
     'GET',
     undefined,

@@ -24,8 +24,7 @@ import {
 import {
   FranchiseData,
   FranchiseFilter,
-  FranchiseTableType,
-  fetchFranchises
+  getFranchises
 } from '@/src/utils/Services/FranchiseService';
 import If from '@/src/utils/If';
 import Link from 'next/link';
@@ -67,7 +66,7 @@ const FranchiseTable = () => {
   useEffect(() => {
     (async () => {
       try {
-        await fetchFranchises(
+        await getFranchises(
           currentPage,
           setCurrentPage,
           setTotalPages,
@@ -82,7 +81,7 @@ const FranchiseTable = () => {
   }, []);
 
   const onPageChange = async (page: number) => {
-    await fetchFranchises(
+    await getFranchises(
       page,
       setCurrentPage,
       setTotalPages,
@@ -124,7 +123,7 @@ const FranchiseTable = () => {
               const filter: FranchiseFilter = {
                 franchiseName: e.target.value
               };
-              await fetchFranchises(
+              await getFranchises(
                 currentPage,
                 setCurrentPage,
                 setTotalPages,

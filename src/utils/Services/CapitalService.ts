@@ -6,10 +6,10 @@ const capitalSchema = z.object({
   name: z.string()
 });
 
-export type Capital = z.infer<typeof capitalSchema>;
+export type GetCapitalDto = z.infer<typeof capitalSchema>;
 
 export async function fetchCapitals(): Promise<SelectOption[]> {
-  const data = await apiRequest<undefined, Capital[]>(
+  const data = await apiRequest<undefined, GetCapitalDto[]>(
     `${BASE_URL}/capital`,
     'GET'
   );

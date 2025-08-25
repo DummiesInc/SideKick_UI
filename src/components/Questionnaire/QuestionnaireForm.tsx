@@ -9,7 +9,10 @@ import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
 import { Button } from 'flowbite-react';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
-import { Customer, createCustomer } from '@/src/utils/Services/CustomerService';
+import {
+  RequestCustomerDto,
+  createCustomer
+} from '@/src/utils/Services/CustomerService';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import { FlowDatePicker } from '../ReactFormComponents/FlowDatePicker';
@@ -56,7 +59,7 @@ const QuestionnaireSchema = z.object({
   }),
   financeRequired: z.boolean().optional().nullable(),
   startDate: z
-    .date()
+    .string()
     .optional()
     .nullable()
     .refine((val) => val !== null, { message: 'Select an option' })
@@ -86,18 +89,19 @@ export const CustomerQuestionnaireForm: React.FC = () => {
     formState: { errors, isSubmitting }
   } = useForm<QuestionnaireForm>({
     resolver: zodResolver(QuestionnaireSchema),
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    mode: 'all'
   });
 
   const onSubmit = async (data: QuestionnaireForm) => {
     try {
-      const payload: Customer = {
+      const payload: RequestCustomerDto = {
         firstName: data.firstName ?? '',
         lastName: data.lastName ?? '',
         buyInReason: buyInReasonOptions[Number(data.buyInReason)] ?? '',
         vision: visionOptions[Number(data.vision)] ?? '',
         involvement: involvementOptions[Number(data.involvement)] ?? '',
-        startDate: data.startDate?.toISOString() ?? '',
+        startDate: data.startDate ?? '',
         capitalId: Number(data.capitalId) ?? 1,
         financeRequired: data.financeRequired ?? false
       };
@@ -195,11 +199,11 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         errors={errors}
       />
 
-      <FlowDatePicker
+      <DatePickerInput
         name="startDate"
         label="Start Date"
-        placeholder="Pick a start date"
-        control={control}
+        placeholder="Start Date"
+        register={register}
         errors={errors}
       />
 
@@ -210,6 +214,9 @@ export const CustomerQuestionnaireForm: React.FC = () => {
           type="submit"
           className="text-white bg-blue-700"
           disabled={isSubmitting}
+          onClick={() => {
+            console.log(errors);
+          }}
         >
           Submit
         </Button>

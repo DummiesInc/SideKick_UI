@@ -13,10 +13,13 @@ export const customerSchema = z.object({
   startDate: z.string().optional()
 });
 
-export type Customer = z.infer<typeof customerSchema>;
+export type RequestCustomerDto = z.infer<typeof customerSchema>;
+export type GetCustomerDto = z.infer<typeof customerSchema>;
 
-export async function createCustomer(customer: Customer): Promise<Customer> {
-  const data = await apiRequest<Customer, Customer>(
+export async function createCustomer(
+  customer: RequestCustomerDto
+): Promise<GetCustomerDto> {
+  const data = await apiRequest<RequestCustomerDto, GetCustomerDto>(
     `${BASE_URL}/customer`,
     'POST',
     customer
