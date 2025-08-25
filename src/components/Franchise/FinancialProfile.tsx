@@ -9,6 +9,8 @@ import Divider from '@/src/utils/components/Divider';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
 import { SelectInput } from '../ReactFormComponents/SelectInput';
 import { FlowDatePicker } from '../ReactFormComponents/FlowDatePicker';
+import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
+import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 
 type FinancialProfileForm = z.infer<typeof FinancialProfileFormSchema>;
 
@@ -20,7 +22,7 @@ const initialValues: FinancialProfileForm = {
   phoneNumber: '',
   industuryCategory: '',
   brandReputation: {
-    foundingYear: null,
+    foundingDate: null,
     franchiseProgramYear: '',
     totalUnits: null,
     growthRate: 0,
@@ -37,9 +39,7 @@ const initialValues: FinancialProfileForm = {
     renewalFee: 0,
     trainingFee: 0,
     supplyFee: 0,
-    unitGrossRevenue: 0,
     profitMargin: null,
-    breakEvenTimelineEst: 0,
     netWorthRequirement: 0,
     liquidityRequirement: 0
   },
@@ -51,7 +51,7 @@ const initialValues: FinancialProfileForm = {
   }
 };
 
-const FinancialProfile = () => {
+const FinancialProfile: React.FC = () => {
   const [capitals, setCapitals] = useState<SelectOption[]>([]);
 
   const {
@@ -77,6 +77,10 @@ const FinancialProfile = () => {
     })();
   }, []);
 
+  const onSubmit = async (data: any) => {
+    console.log(data);
+  };
+
   return (
     <div
       className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm max-w-xl"
@@ -87,7 +91,7 @@ const FinancialProfile = () => {
       }
     >
       <form
-        onSubmit={() => {}}
+        onSubmit={handleSubmit(onSubmit)}
         style={
           {
             // border: 'solid 2px red'
@@ -148,9 +152,9 @@ const FinancialProfile = () => {
 
           <div className="grid grid-flow-col grid-rows-2 grid-cols-2 gap-4">
             <FlowDatePicker
-              name="brandReputation.foundingYear"
-              label="Brand Founding Year"
-              placeholder="Brand Founding Year"
+              name="brandReputation.foundingDate"
+              label="Brand Founding Date"
+              placeholder="Brand Founding Date"
               control={control}
               errors={errors}
             />
@@ -215,7 +219,130 @@ const FinancialProfile = () => {
               placeholder="Select an option"
               options={capitals}
             />
+
+            <ReactTextInput
+              label="Royalty Fee"
+              name="financialInformation.royaltyFee"
+              register={register}
+              errors={errors}
+              placeholder="Royalty Fee"
+              type="number"
+            />
+
+            <ReactTextInput
+              label="Marketing Fee"
+              name="financialInformation.marketingFee"
+              register={register}
+              errors={errors}
+              placeholder="Marketing Fee"
+              type="number"
+            />
           </div>
+
+          <div className="grid grid-flow-col grid-rows-2 grid-cols-2 gap-4">
+            <ReactTextInput
+              label="Software LicenseFee Fee"
+              name="financialInformation.softwareLicenseFee"
+              register={register}
+              errors={errors}
+              placeholder="Software LicenseFee Fee"
+              type="number"
+            />
+
+            <ReactTextInput
+              label="Renewal Fee"
+              name="financialInformation.renewalFee"
+              register={register}
+              errors={errors}
+              placeholder="Renewal Fee"
+              type="number"
+            />
+
+            <ReactTextInput
+              label="Training Fee"
+              name="financialInformation.trainingFee"
+              register={register}
+              errors={errors}
+              placeholder="Training Fee"
+              type="number"
+            />
+
+            <ReactTextInput
+              label="Supply Fee"
+              name="financialInformation.supplyFee"
+              register={register}
+              errors={errors}
+              placeholder="Supply Fee"
+              type="number"
+            />
+          </div>
+
+          <ReactTextInput
+            label="Profit Margin"
+            name="financialInformation.profitMargin"
+            register={register}
+            errors={errors}
+            placeholder="Profit Margin"
+            type="number"
+          />
+
+          <ReactTextInput
+            label="Net Worth Requirement"
+            name="financialInformation.netWorthRequirement"
+            register={register}
+            errors={errors}
+            placeholder="Net Worth Requirement"
+            type="number"
+          />
+
+          <ReactTextInput
+            label="Liquidity Requirement"
+            name="financialInformation.liquidityRequirement"
+            register={register}
+            errors={errors}
+            placeholder="Liquidity Requirement"
+            type="number"
+          />
+        </div>
+
+        <Divider />
+
+        <div>
+          <h5 className="font-semibold text-gray-900 underline decoration-blue-500 mb-5 mt-5">
+            Operation Information
+          </h5>
+
+          <ReactTextInput
+            label="Ownership Model"
+            name="operationInformation.ownershipModel"
+            register={register}
+            errors={errors}
+            placeholder="Ownership Model"
+            type="text"
+          />
+
+          <ReactTextInput
+            label="Number of staff required for operation"
+            name="operationInformation.staffCountRequired"
+            register={register}
+            errors={errors}
+            placeholder="Staff number"
+            type="number"
+          />
+
+          <ToggleInput
+            label="Approved Supplier Only"
+            name="operationInformation.approvedSupplierOnly"
+            register={register}
+            errors={errors}
+          />
+
+          <ToggleInput
+            label="Coporate Supplier Only"
+            name="operationInformation.coporateSupplierOnly"
+            register={register}
+            errors={errors}
+          />
         </div>
 
         <div className="flex justify-center items-center mt-5">

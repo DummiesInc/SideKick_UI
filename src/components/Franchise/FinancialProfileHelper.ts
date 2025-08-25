@@ -8,7 +8,7 @@ export const FinancialProfileFormSchema = z.object({
   phoneNumber: z.string(),
   industuryCategory: z.string(),
   brandReputation: z.object({
-    foundingYear: z.date().nullable(),
+    foundingDate: z.date().nullable(),
     franchiseProgramYear: z.string(),
     // nonoptional?
     totalUnits: z.int().nullable().nonoptional(),
@@ -27,10 +27,7 @@ export const FinancialProfileFormSchema = z.object({
     renewalFee: z.int(),
     trainingFee: z.int(),
     supplyFee: z.int(),
-    unitGrossRevenue: z.int(),
     profitMargin: z.int().nullable(),
-    // in months?
-    breakEvenTimelineEst: z.int(),
     netWorthRequirement: z.int(),
     liquidityRequirement: z.int()
   }),
