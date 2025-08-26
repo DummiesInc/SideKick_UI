@@ -1,6 +1,49 @@
 import { z } from 'zod';
 
-export const GetFinancialProfileFormSchema = z.object({
+export const getFranchiseBrandReputationSchema = z
+  .object({
+    foundingDate: z.string().nullable(),
+    franchiseProgramYear: z.string().nullable(),
+    totalUnits: z.number().nullable(),
+    growthRate: z.number().nullable(),
+    satisfactionScore: z.number().nullable()
+  })
+  .nullable()
+  .optional();
+
+export const getFranchiseFinancialInformationSchema = z
+  .object({
+    capital: z
+      .object({
+        // total investment range
+        name: z.string().nullable()
+      })
+      .nullable(),
+    royaltyFee: z.number().nullable(),
+    marketingFee: z.number().nullable(),
+    softwareLicenseFee: z.number().nullable(),
+    renewalFee: z.number().nullable(),
+    trainingFee: z.number().nullable(),
+    supplyFee: z.number().nullable(),
+    profitMargin: z.number().nullable(),
+    netWorthRequirement: z.number().nullable(),
+    liquidityRequirement: z.number().nullable()
+  })
+  .nullable()
+  .optional();
+
+export const getFranchiseOperationInformationSchema = z
+  .object({
+    // update this and make it a DB table
+    ownershipModel: z.string().nullable(),
+    staffCountRequirement: z.number().nullable(),
+    approvedSupplierOnly: z.boolean().nullable(),
+    corporateSupplierOnly: z.boolean().nullable()
+  })
+  .nullable()
+  .optional();
+
+export const getFinancialProfileFormSchema = z.object({
   franchise: z
     .object({
       name: z.string().nullable(),
@@ -11,51 +54,14 @@ export const GetFinancialProfileFormSchema = z.object({
     })
     .nullable()
     .optional(),
-  brandReputation: z
-    .object({
-      foundingDate: z.string().nullable(),
-      franchiseProgramYear: z.string().nullable(),
-      totalUnits: z.number().nullable(),
-      growthRate: z.number().nullable(),
-      satisfactionScore: z.number().nullable()
-    })
-    .nullable()
-    .optional(),
+  brandReputation: getFranchiseBrandReputationSchema,
 
-  financialInformation: z
-    .object({
-      capital: z
-        .object({
-          // total investment range
-          name: z.string().nullable()
-        })
-        .nullable(),
-      royaltyFee: z.number().nullable(),
-      marketingFee: z.number().nullable(),
-      softwareLicenseFee: z.number().nullable(),
-      renewalFee: z.number().nullable(),
-      trainingFee: z.number().nullable(),
-      supplyFee: z.number().nullable(),
-      profitMargin: z.number().nullable(),
-      netWorthRequirement: z.number().nullable(),
-      liquidityRequirement: z.number().nullable()
-    })
-    .nullable()
-    .optional(),
+  financialInformation: getFranchiseFinancialInformationSchema,
 
-  operationInformation: z
-    .object({
-      // update this and make it a DB table
-      ownershipModel: z.string().nullable(),
-      staffCountRequirement: z.number().nullable(),
-      approvedSupplierOnly: z.boolean().nullable(),
-      corporateSupplierOnly: z.boolean().nullable()
-    })
-    .nullable()
-    .optional()
+  operationInformation: getFranchiseOperationInformationSchema
 });
 
-export const UpdateFinancialProfileFormSchema = z.object({
+export const updateFinancialProfileFormSchema = z.object({
   franchise: z.object({
     name: z.string(),
     website: z.url('Invalid URL'),
@@ -160,9 +166,9 @@ export const UpdateFinancialProfileFormSchema = z.object({
 });
 
 export type GetFinancialProfileDto = z.infer<
-  typeof GetFinancialProfileFormSchema
+  typeof getFranchiseBrandReputationSchema
 >;
 
 export type UpdateFinancialProfileDto = z.infer<
-  typeof UpdateFinancialProfileFormSchema
+  typeof updateFinancialProfileFormSchema
 >;

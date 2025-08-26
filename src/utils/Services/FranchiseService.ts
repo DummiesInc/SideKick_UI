@@ -1,4 +1,9 @@
-import { UpdateFinancialProfileDto } from '@/src/components/Franchise/FinancialProfileHelper';
+import {
+  UpdateFinancialProfileDto,
+  getFranchiseBrandReputationSchema,
+  getFranchiseFinancialInformationSchema,
+  getFranchiseOperationInformationSchema
+} from '@/src/components/Franchise/FinancialProfileHelper';
 import { BASE_URL, DEBUG_URL, apiRequest, keysToSnake } from '@/src/utils/api';
 import { z } from 'zod';
 
@@ -8,7 +13,10 @@ const franchiseSchema = z.object({
   capital: z.object({
     id: z.number(),
     name: z.string()
-  })
+  }),
+  brandReputation: getFranchiseBrandReputationSchema,
+  financialInformation: getFranchiseFinancialInformationSchema,
+  operationInformation: getFranchiseOperationInformationSchema
 });
 
 const franchiseReportSchema = z.object({

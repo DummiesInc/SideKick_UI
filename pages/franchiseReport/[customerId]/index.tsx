@@ -9,8 +9,7 @@ import { BASE_URL } from '@/src/utils/api';
 import FranchiseReportPDF from '@/src/components/ReactPDFs/FranchiseReportPDF';
 
 interface Props {
-  // franchiseReport: FranchiseReportType | null;
-  franchiseReport: any;
+  franchiseReport: FranchiseReportType | null;
   pdfBase64: any;
 }
 

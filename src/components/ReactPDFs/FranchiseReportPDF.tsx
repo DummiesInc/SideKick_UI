@@ -12,6 +12,8 @@ import {
 import { FranchiseReportType } from '@/src/utils/Services/FranchiseService';
 import fs from 'fs';
 import path from 'path';
+import If from '@/src/utils/If';
+import dayjs from 'dayjs';
 
 interface Props {
   franchiseReport: FranchiseReportType | null;
@@ -96,6 +98,68 @@ const FranchiseReportPDF: FC<Props> = ({ franchiseReport }) => {
                     <Text style={styles.textHeader}>{'Investment Range:'}</Text>
                     <Text>{franchise?.capital?.name}</Text>
                   </View>
+
+                  {/* Brand Reputation */}
+                  <If condition={!!franchise.brandReputation}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>
+                        {'Franchise Founding Year:'}
+                      </Text>
+                      <Text>
+                        {dayjs(franchise?.brandReputation?.foundingDate).format(
+                          'MM/DD/YYYY'
+                        )}
+                      </Text>
+                    </View>
+
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>{'Growth Rate:'}</Text>
+                      <Text>{`${franchise?.brandReputation?.growthRate}%`}</Text>
+                    </View>
+
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>
+                        {'Satisfaction Score:'}
+                      </Text>
+                      <Text>{`${franchise?.brandReputation?.satisfactionScore}/100`}</Text>
+                    </View>
+
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>{'Total units:'}</Text>
+                      <Text>{`${franchise?.brandReputation?.totalUnits} domestic units`}</Text>
+                    </View>
+                  </If>
+
+                  <If condition={!!franchise.operationInformation}>
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>
+                        {'Approved Supplier Only:'}
+                      </Text>
+                      <Text>
+                        {franchise?.operationInformation?.approvedSupplierOnly
+                          ? 'Yes'
+                          : 'No'}
+                      </Text>
+                    </View>
+
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>
+                        {'Corporate Supplier Only:'}
+                      </Text>
+                      <Text>
+                        {franchise?.operationInformation?.corporateSupplierOnly
+                          ? 'Yes'
+                          : 'No'}
+                      </Text>
+                    </View>
+
+                    <View style={styles.textWrapper}>
+                      <Text style={styles.textHeader}>
+                        {'Staff Count Operation Requirement:'}
+                      </Text>
+                      <Text>{`${franchise?.operationInformation?.staffCountRequirement} staffs`}</Text>
+                    </View>
+                  </If>
                 </View>
               </View>
             );

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { ReactTextInput } from '../ReactFormComponents/ReactTextInput';
 import {
-  GetFinancialProfileFormSchema,
+  getFinancialProfileFormSchema,
   UpdateFinancialProfileDto,
-  UpdateFinancialProfileFormSchema
+  updateFinancialProfileFormSchema
 } from './FinancialProfileHelper';
 import Divider from '@/src/utils/components/Divider';
 import { fetchCapitals } from '@/src/utils/Services/CapitalService';
@@ -24,7 +24,7 @@ import dayjs from 'dayjs';
 import { involvementOptions } from '../Questionnaire/QuestionnaireForm';
 
 export type GetFinancialProfileDto = z.infer<
-  typeof GetFinancialProfileFormSchema
+  typeof getFinancialProfileFormSchema
 >;
 
 interface Props {
@@ -89,7 +89,7 @@ const FinancialProfile: React.FC<Props> = ({
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<UpdateFinancialProfileDto>({
-    resolver: zodResolver(UpdateFinancialProfileFormSchema),
+    resolver: zodResolver(updateFinancialProfileFormSchema),
     defaultValues: getInitialValue(franchiseProfile),
     mode: 'all'
   });
