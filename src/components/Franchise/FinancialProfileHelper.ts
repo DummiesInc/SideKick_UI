@@ -24,7 +24,6 @@ export const GetFinancialProfileFormSchema = z.object({
 
   financialInformation: z
     .object({
-      franchiseFee: z.number().nullable(),
       capital: z
         .object({
           // total investment range
@@ -48,9 +47,9 @@ export const GetFinancialProfileFormSchema = z.object({
     .object({
       // update this and make it a DB table
       ownershipModel: z.string().nullable(),
-      staffCountRequired: z.number().nullable(),
+      staffCountRequirement: z.number().nullable(),
       approvedSupplierOnly: z.boolean().nullable(),
-      coporateSupplierOnly: z.boolean().nullable()
+      corporateSupplierOnly: z.boolean().nullable()
     })
     .nullable()
     .optional()
@@ -69,40 +68,94 @@ export const UpdateFinancialProfileFormSchema = z.object({
   brandReputation: z.object({
     foundingDate: z.string(),
     franchiseProgramYear: z.string(),
-    totalUnits: z.number().nonnegative().min(1, 'Please enter a value'),
-    growthRate: z.number().nonnegative().min(0.1, 'Please enter a value'),
-    satisfactionScore: z.number().nonnegative().min(1, 'Please enter a value')
+    totalUnits: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    growthRate: z
+      .number()
+      .nonnegative()
+      .min(0.1, 'Please enter a value')
+      .optional(),
+    satisfactionScore: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional()
   }),
 
   financialInformation: z.object({
-    franchiseFee: z.number().nonnegative().min(1, 'Please enter a value'),
     capital: z.object({
       // total investment range
       name: z.string()
     }),
-    royaltyFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    marketingFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    softwareLicenseFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    renewalFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    trainingFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    supplyFee: z.number().nonnegative().min(1, 'Please enter a value'),
-    profitMargin: z.number().nonnegative().min(1, 'Please enter a value'),
+    royaltyFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional()
+      .refine((val) => val !== undefined && !isNaN(val), {
+        message: 'Please enter a value'
+      }),
+
+    // royaltyFee: z.union([
+    //   z.undefined(),
+    //   z.coerce.number().nonnegative().min(1, '')
+    // ]),
+
+    marketingFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    softwareLicenseFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    renewalFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    trainingFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    supplyFee: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
+    profitMargin: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
     netWorthRequirement: z
       .number()
       .nonnegative()
-      .min(1, 'Please enter a value'),
+      .min(1, 'Please enter a value')
+      .optional(),
     liquidityRequirement: z
       .number()
       .nonnegative()
       .min(1, 'Please enter a value')
+      .optional()
   }),
 
   operationInformation: z.object({
     // update this and make it a DB table
     ownershipModel: z.string(),
-    staffCountRequired: z.number().nonnegative().min(1, 'Please enter a value'),
+    staffCountRequirement: z
+      .number()
+      .nonnegative()
+      .min(1, 'Please enter a value')
+      .optional(),
     approvedSupplierOnly: z.boolean(),
-    coporateSupplierOnly: z.boolean()
+    corporateSupplierOnly: z.boolean()
   })
 });
 

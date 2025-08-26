@@ -5,7 +5,8 @@ import {
   FieldErrors,
   FieldValues,
   UseFormRegister,
-  Path
+  Path,
+  FieldError
 } from 'react-hook-form';
 
 type TextInputProps<T extends FieldValues> = {
@@ -32,7 +33,7 @@ export function ReactTextInput<T extends FieldValues = FieldValues>(
     step = 'any',
     onChange
   } = props;
-  const fieldError = get(errors, name);
+  const fieldError = get(errors, name) as FieldError | undefined;
   return (
     // what should the type be if I want to be able to enter a decimal number?
     <div className="pt-2 pb-2">

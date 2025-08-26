@@ -105,8 +105,8 @@ export const CustomerQuestionnaireForm: React.FC = () => {
         capitalId: Number(data.capitalId) ?? 1,
         financeRequired: data.financeRequired ?? false
       };
-      console.log(payload);
       const result = await createCustomer(payload);
+      console.log(result);
       toast.success('Submitted!');
       router.push(`/franchiseReport/${result?.id}`);
     } catch (err) {
@@ -214,11 +214,8 @@ export const CustomerQuestionnaireForm: React.FC = () => {
           type="submit"
           className="text-white bg-blue-700"
           disabled={isSubmitting}
-          onClick={() => {
-            console.log(errors);
-          }}
         >
-          Submit
+          Generate Report
         </Button>
       </div>
     </form>

@@ -1,4 +1,5 @@
-import { BASE_URL, apiRequest } from '@/src/utils/api';
+import { UpdateFinancialProfileDto } from '@/src/components/Franchise/FinancialProfileHelper';
+import { BASE_URL, DEBUG_URL, apiRequest, keysToSnake } from '@/src/utils/api';
 import { z } from 'zod';
 
 const franchiseSchema = z.object({
@@ -88,10 +89,27 @@ export async function getFranchises(
 
 export async function getFranchiseProfile(franchiseId: string) {
   try {
-    const data = await apiRequest<undefined, GetFranchiseDto>(
+    await apiRequest<undefined, GetFranchiseDto>(
       `${BASE_URL}/franchise/${franchiseId}`,
+      // `${DEBUG_URL}/franchise/${franchiseId}`,
       'GET'
     );
-    console.log(data);
   } catch (err) {}
+}
+
+export async function updateFranchiseProfile(
+  franchiseId: number,
+  body: UpdateFinancialProfileDto
+): Promise<any> {
+  var convertedBody = keysToSnake<UpdateFinancialProfileDto>(body);
+  try {
+    await apiRequest<any, undefined>(
+      `${BASE_URL}/franchise/${franchiseId}`,
+      // `${DEBUG_URL}/franchise/${franchiseId}`,
+      'PUT',
+      convertedBody
+    );
+  } catch (err) {}
+
+  //   return CustomerSchema.parse(data);
 }

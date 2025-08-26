@@ -16,7 +16,10 @@ import { FlowDatePicker } from '../ReactFormComponents/FlowDatePicker';
 import { DatePickerInput } from '../ReactFormComponents/DatePickerInput';
 import { ToggleInput } from '../ReactFormComponents/ToggleInput';
 import { useRouter } from 'next/router';
-import { getFranchiseProfile } from '@/src/utils/Services/FranchiseService';
+import {
+  getFranchiseProfile,
+  updateFranchiseProfile
+} from '@/src/utils/Services/FranchiseService';
 import dayjs from 'dayjs';
 import { involvementOptions } from '../Questionnaire/QuestionnaireForm';
 
@@ -25,10 +28,14 @@ export type GetFinancialProfileDto = z.infer<
 >;
 
 interface Props {
+  franchiseId: number | null;
   franchiseProfile?: GetFinancialProfileDto | null;
 }
 
-const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
+const FinancialProfile: React.FC<Props> = ({
+  franchiseProfile,
+  franchiseId
+}) => {
   const [capitals, setCapitals] = useState<SelectOption[]>([]);
 
   const getInitialValue = (
@@ -45,32 +52,33 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
       brandReputation: {
         foundingDate: dto?.brandReputation?.foundingDate ?? '',
         franchiseProgramYear: dto?.brandReputation?.franchiseProgramYear ?? '',
-        totalUnits: dto?.brandReputation?.totalUnits ?? 0,
-        growthRate: dto?.brandReputation?.growthRate ?? 0,
-        satisfactionScore: dto?.brandReputation?.satisfactionScore ?? 0
+        totalUnits: dto?.brandReputation?.totalUnits ?? undefined,
+        growthRate: dto?.brandReputation?.growthRate ?? undefined,
+        satisfactionScore: dto?.brandReputation?.satisfactionScore ?? undefined
       },
       financialInformation: {
-        franchiseFee: dto?.financialInformation?.franchiseFee ?? 0,
         capital: { name: dto?.financialInformation?.capital?.name ?? '' },
-        royaltyFee: dto?.financialInformation?.royaltyFee ?? 0,
-        marketingFee: dto?.financialInformation?.marketingFee ?? 0,
-        softwareLicenseFee: dto?.financialInformation?.softwareLicenseFee ?? 0,
-        renewalFee: dto?.financialInformation?.renewalFee ?? 0,
-        trainingFee: dto?.financialInformation?.trainingFee ?? 0,
-        supplyFee: dto?.financialInformation?.supplyFee ?? 0,
-        profitMargin: dto?.financialInformation?.profitMargin ?? 0,
+        royaltyFee: dto?.financialInformation?.royaltyFee ?? undefined,
+        marketingFee: dto?.financialInformation?.marketingFee ?? undefined,
+        softwareLicenseFee:
+          dto?.financialInformation?.softwareLicenseFee ?? undefined,
+        renewalFee: dto?.financialInformation?.renewalFee ?? undefined,
+        trainingFee: dto?.financialInformation?.trainingFee ?? undefined,
+        supplyFee: dto?.financialInformation?.supplyFee ?? undefined,
+        profitMargin: dto?.financialInformation?.profitMargin ?? undefined,
         netWorthRequirement:
-          dto?.financialInformation?.netWorthRequirement ?? 0,
+          dto?.financialInformation?.netWorthRequirement ?? undefined,
         liquidityRequirement:
-          dto?.financialInformation?.liquidityRequirement ?? 0
+          dto?.financialInformation?.liquidityRequirement ?? undefined
       },
       operationInformation: {
         ownershipModel: dto?.operationInformation?.ownershipModel ?? '',
-        staffCountRequired: dto?.operationInformation?.staffCountRequired ?? 0,
+        staffCountRequirement:
+          dto?.operationInformation?.staffCountRequirement ?? undefined,
         approvedSupplierOnly:
           dto?.operationInformation?.approvedSupplierOnly ?? false,
-        coporateSupplierOnly:
-          dto?.operationInformation?.coporateSupplierOnly ?? false
+        corporateSupplierOnly:
+          dto?.operationInformation?.corporateSupplierOnly ?? false
       }
     };
   };
@@ -97,8 +105,9 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
     })();
   }, []);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: UpdateFinancialProfileDto) => {
     console.log(data);
+    await updateFranchiseProfile(franchiseId!, data);
   };
 
   return (
@@ -222,34 +231,13 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
             Financial Information
           </h5>
 
-          <div className="grid grid-flow-col grid-rows-2 grid-cols-2 gap-4">
-            <ReactTextInput
-              label="Franchise Fee"
-              name="financialInformation.franchiseFee"
-              register={register}
-              errors={errors}
-              placeholder="Franchise Fee"
-              type="number"
-              onChange={(e) => {
-                console.log(typeof e);
-              }}
-            />
-
-            <SelectInput
-              label="Investment Range"
-              name="financialInformation.capital.name"
-              register={register}
-              errors={errors}
-              placeholder="Select an option"
-              options={capitals}
-            />
-
+          <div className="grid grid-flow-col grid-rows-1 grid-cols-2 gap-4">
             <ReactTextInput
               label="Royalty Fee"
               name="financialInformation.royaltyFee"
               register={register}
               errors={errors}
-              placeholder="Royalty Fee"
+              placeholder="$"
               type="number"
             />
 
@@ -258,7 +246,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
               name="financialInformation.marketingFee"
               register={register}
               errors={errors}
-              placeholder="Marketing Fee"
+              placeholder="$"
               type="number"
             />
           </div>
@@ -269,7 +257,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
               name="financialInformation.softwareLicenseFee"
               register={register}
               errors={errors}
-              placeholder="Software LicenseFee Fee"
+              placeholder="$"
               type="number"
             />
 
@@ -278,7 +266,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
               name="financialInformation.renewalFee"
               register={register}
               errors={errors}
-              placeholder="Renewal Fee"
+              placeholder="$"
               type="number"
             />
 
@@ -287,7 +275,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
               name="financialInformation.trainingFee"
               register={register}
               errors={errors}
-              placeholder="Training Fee"
+              placeholder="$"
               type="number"
             />
 
@@ -296,7 +284,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
               name="financialInformation.supplyFee"
               register={register}
               errors={errors}
-              placeholder="Supply Fee"
+              placeholder="$"
               type="number"
             />
           </div>
@@ -336,15 +324,6 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
             Operation Information
           </h5>
 
-          {/* <ReactTextInput
-            label="Ownership Model"
-            name="operationInformation.ownershipModel"
-            register={register}
-            errors={errors}
-            placeholder="Ownership Model"
-            type="text"
-          /> */}
-
           <SelectInput
             label="Ownership Model"
             name="operationInformation.ownershipModel"
@@ -359,7 +338,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
 
           <ReactTextInput
             label="Number of staff required for operation"
-            name="operationInformation.staffCountRequired"
+            name="operationInformation.staffCountRequirement"
             register={register}
             errors={errors}
             placeholder="Staff number"
@@ -375,7 +354,7 @@ const FinancialProfile: React.FC<Props> = ({ franchiseProfile }) => {
 
           <ToggleInput
             label="Coporate Supplier Only"
-            name="operationInformation.coporateSupplierOnly"
+            name="operationInformation.corporateSupplierOnly"
             register={register}
             errors={errors}
           />
